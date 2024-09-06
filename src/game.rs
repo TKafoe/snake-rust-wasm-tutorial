@@ -1,7 +1,11 @@
 use crate::models::snake::Snake;
 use crate::renderers::snake_renderer::SnakeRenderer;
+use crate::utils::input_controller::InputController;
+use crate::models::geometry::Direction;
+use crate::wasm4;
 
 pub struct Game {
+    input_controller: InputController,
     snake: Snake,
     snake_renderer: SnakeRenderer,
     frame_count: u32,
@@ -10,18 +14,41 @@ pub struct Game {
 impl Game {
     pub fn new() -> Self {
         Self {
+            input_controller: InputController::new(),
             snake: Snake::new(),
             snake_renderer: SnakeRenderer::new(),
             frame_count: 0, 
         }
     }
 
-    pub fn update(&mut self) {
-        self.frame_count += 1;
+    pub fn process_input(&mut self) {
+        if self.input_controller.is_pressed(wasm4::BUTTON_UP) {
+            self.snake.set_direction(Direction::Up);
+        } else if self.input_controller.is_pressed(wasm4::BUTTON_DOWN) {
+            self.snake.set_direction(Direction::Down);
+        } else if self.input_controller.is_pressed(wasm4::BUTTON_LEFT) {
+            self.snake.set_direction(Direction::Left);
+        } else if self.input_controller.is_pressed(wasm4::BUTTON_RIGHT) {
+            self.snake.set_direction(Direction::Right);
+        }
+    }
 
+    pub fn update(&mut self) {
+        // Increase the frame count
+        self.frame_count += 1;
+    
+        // Process input
+        self.process_input();
+        
+        // Update the snake every 15 frames
         if self.frame_count % 15 == 0 {
             self.snake.update();
         }
+        
+        // Render the snake
         self.snake_renderer.render(&self.snake);
+
+        // Save the current state of the gamepad for the next frame
+        self.input_controller.save_state();
     }
 }

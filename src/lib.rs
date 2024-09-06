@@ -5,6 +5,7 @@ mod palette;
 mod models;
 mod game;
 mod renderers;
+mod utils;
 use game::Game;
 use lazy_static::lazy_static;
 use std::sync::Mutex;
