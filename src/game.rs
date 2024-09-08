@@ -1,5 +1,7 @@
 use crate::models::snake::Snake;
+use crate::models::food::Food;
 use crate::renderers::snake_renderer::SnakeRenderer;
+use crate::renderers::food_renderer::FoodRenderer;
 use crate::utils::input_controller::InputController;
 use crate::models::geometry::Direction;
 use crate::wasm4;
@@ -7,7 +9,7 @@ use crate::wasm4;
 pub struct Game {
     input_controller: InputController,
     snake: Snake,
-    snake_renderer: SnakeRenderer,
+    food: Food,
     frame_count: u32,
 }
 
@@ -16,8 +18,8 @@ impl Game {
         Self {
             input_controller: InputController::new(),
             snake: Snake::new(),
-            snake_renderer: SnakeRenderer::new(),
-            frame_count: 0, 
+            frame_count: 0,
+            food: Food::new(),
         }
     }
 
@@ -41,13 +43,16 @@ impl Game {
         self.process_input();
         
         // Update the snake every 15 frames
-        if self.frame_count % 15 == 0 {
+        if self.frame_count % 10 == 0 {
             self.snake.update();
         }
         
         // Render the snake
-        self.snake_renderer.render(&self.snake);
-
+        SnakeRenderer::render(&self.snake);
+        
+        // Render the food
+        FoodRenderer::render(&self.food);
+        
         // Save the current state of the gamepad for the next frame
         self.input_controller.save_state();
     }
