@@ -6,9 +6,7 @@ pub struct InputController {
 
 impl InputController {
     pub fn new() -> InputController {
-        InputController {
-            prev_state: 0,
-        }
+        InputController { prev_state: 0 }
     }
 
     pub fn save_state(&mut self) {

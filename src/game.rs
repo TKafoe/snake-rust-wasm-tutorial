@@ -1,10 +1,10 @@
-use crate::models::snake::Snake;
 use crate::models::food::Food;
-use crate::renderers::snake_renderer::SnakeRenderer;
+use crate::models::geometry::Direction;
+use crate::models::snake::Snake;
 use crate::renderers::food_renderer::FoodRenderer;
 use crate::renderers::scene_renderer::SceneRenderer;
+use crate::renderers::snake_renderer::SnakeRenderer;
 use crate::utils::input_controller::InputController;
-use crate::models::geometry::Direction;
 use crate::wasm4;
 
 pub struct Game {
@@ -39,10 +39,10 @@ impl Game {
     pub fn update(&mut self) {
         // Increase the frame count
         self.frame_count += 1;
-    
+
         // Process input
         self.process_input();
-        
+
         // Update the snake every 15 frames
         if self.frame_count % 10 == 0 {
             self.snake.update();
@@ -53,21 +53,21 @@ impl Game {
                 self.food.move_loc(&self.snake);
             }
         }
-        
+
         if !self.snake.is_dead() {
             // Render the snake
             SnakeRenderer::render(&self.snake);
         }
 
         // Render the scene
-        SceneRenderer::render();  
-       
+        SceneRenderer::render();
+
         // Render the food
         FoodRenderer::render(&self.food);
-        
+
         // Save the current state of the gamepad for the next frame
         self.input_controller.save_state();
-        
+
         // Check if the snake is dead
         if self.snake.is_dead() {
             self.snake = Snake::new();

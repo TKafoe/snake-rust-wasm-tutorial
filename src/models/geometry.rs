@@ -5,7 +5,7 @@ pub struct Point {
 }
 
 impl Point {
-   pub fn sub(&self, other: Point) -> Point {
+    pub fn sub(&self, other: Point) -> Point {
         Point {
             x: self.x - other.x,
             y: self.y - other.y,

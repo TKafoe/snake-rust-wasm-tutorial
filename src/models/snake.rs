@@ -1,4 +1,4 @@
-use crate::models::geometry::{Point, Direction};
+use crate::models::geometry::{Direction, Point};
 
 use super::geometry::{PLAYING_FIELD_SIZE, WALL_SIZE};
 
@@ -9,16 +9,16 @@ pub struct Snake {
 }
 
 impl Snake {
-    pub const STARTING_POINT: Point = Point { x: 8, y: 6};
+    pub const STARTING_POINT: Point = Point { x: 8, y: 6 };
 
     pub fn new() -> Self {
         Self {
             body: vec![
                 Self::STARTING_POINT,
-                Self::STARTING_POINT.sub(Point { x: 0, y: 1}),
-                Self::STARTING_POINT.sub(Point { x: 0, y: 2}), 
+                Self::STARTING_POINT.sub(Point { x: 0, y: 1 }),
+                Self::STARTING_POINT.sub(Point { x: 0, y: 2 }),
             ],
-            direction: Point { x: 0, y: 1},
+            direction: Point { x: 0, y: 1 },
             is_dead: false,
         }
     }
@@ -64,7 +64,10 @@ impl Snake {
 
     pub fn check_collision_with_wall(&self) -> bool {
         let head = self.head();
-        head.x < WALL_SIZE || head.x >= PLAYING_FIELD_SIZE || head.y < WALL_SIZE || head.y >= PLAYING_FIELD_SIZE
+        head.x < WALL_SIZE
+            || head.x >= PLAYING_FIELD_SIZE
+            || head.y < WALL_SIZE
+            || head.y >= PLAYING_FIELD_SIZE
     }
 
     pub fn update(&mut self) {
@@ -76,7 +79,7 @@ impl Snake {
                 y: (self.body[0].y + self.direction.y),
             },
         );
-               
+
         self.body.pop();
 
         if self.check_collision_with_self() || self.check_collision_with_wall() {
@@ -94,6 +97,9 @@ impl Snake {
         }
 
         let tail = self.body.last().unwrap();
-        self.body.push(Point { x: tail.x, y: tail.y });
+        self.body.push(Point {
+            x: tail.x,
+            y: tail.y,
+        });
     }
 }

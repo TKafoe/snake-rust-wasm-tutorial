@@ -12,7 +12,7 @@ pub fn set_draw_color(color_id: u16, palette_color_id: u16) {
     }
 
     if color_id == 0 {
-        unsafe { 
+        unsafe {
             *wasm4::DRAW_COLORS &= 0b1111_1111_1111_0000;
             *wasm4::DRAW_COLORS |= palette_color_id;
         }
