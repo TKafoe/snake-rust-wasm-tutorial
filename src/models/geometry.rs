@@ -33,7 +33,7 @@ impl Point {
     pub fn rotate_around(&self, angle: f32, center: Point) -> Point {
         let translated = self.sub(center);
         let rotated = translated.rotate(angle);
-        rotated.add(center) 
+        rotated.add(center)
     }
 }
 

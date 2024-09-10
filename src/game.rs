@@ -20,7 +20,7 @@ impl Game {
     pub fn new() -> Self {
         Self {
             input_controller: InputController::new(),
-            scene_renderer: SceneRenderer::new(), 
+            scene_renderer: SceneRenderer::new(),
             food_renderer: FoodRenderer::new(),
             snake: Snake::new(),
             frame_count: 0,
@@ -50,6 +50,7 @@ impl Game {
         // Update the snake every 15 frames
         if self.frame_count % 10 == 0 {
             self.snake.update();
+            self.food.update();
 
             // Check collision snake and food
             if self.snake.head() == self.food.loc {
