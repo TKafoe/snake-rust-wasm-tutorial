@@ -9,12 +9,14 @@ pub struct Snake {
 }
 
 impl Snake {
+    pub const STARTING_POINT: Point = Point { x: 8, y: 6};
+
     pub fn new() -> Self {
         Self {
             body: vec![
-                Point { x: 8, y: 6},
-                Point { x: 8, y: 5},
-                Point { x: 8, y: 4},
+                Self::STARTING_POINT,
+                Self::STARTING_POINT.sub(Point { x: 0, y: 1}),
+                Self::STARTING_POINT.sub(Point { x: 0, y: 2}), 
             ],
             direction: Point { x: 0, y: 1},
             is_dead: false,

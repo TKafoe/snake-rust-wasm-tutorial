@@ -50,16 +50,18 @@ impl Game {
             // Check collision snake and food
             if self.snake.head() == self.food.loc {
                 self.snake.grow();
-                self.food.move_loc();
+                self.food.move_loc(&self.snake);
             }
         }
         
-        // Render the scene
-        SceneRenderer::render();
+        if !self.snake.is_dead() {
+            // Render the snake
+            SnakeRenderer::render(&self.snake);
+        }
 
-        // Render the snake
-        SnakeRenderer::render(&self.snake);
-        
+        // Render the scene
+        SceneRenderer::render();  
+       
         // Render the food
         FoodRenderer::render(&self.food);
         

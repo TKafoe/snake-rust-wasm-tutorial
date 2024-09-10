@@ -5,8 +5,8 @@ pub struct SceneRenderer {}
 
 impl SceneRenderer {
     fn render_wall() {
-        set_draw_color(0, 4);
-        set_draw_color(1, 4);
+        set_draw_color(0, 3);
+        set_draw_color(1, 3);
         
         let wall_size: i32 = WALL_SIZE * 8;
         let top_right_x: i32 = 160 - wall_size;
