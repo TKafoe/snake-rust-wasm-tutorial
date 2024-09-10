@@ -1,17 +1,27 @@
-use crate::models::geometry::{Point, get_random_grid};
+use crate::models::geometry::Point;
+use fastrand::Rng;
 
 pub struct Food {
     pub loc: Point,
+    rng: Rng,
 }
 
 impl Food {
     pub fn new() -> Food {
+        let rng = Rng::with_seed(255);
         Food {
-            loc: get_random_grid()
+            loc: Point {
+                x: rng.i32(0..20),
+                y: rng.i32(0..20),
+            },
+            rng, 
         }
     }
 
-    pub fn change_to_random_loc(&mut self) {
-       self.loc = get_random_grid(); 
+    pub fn move_loc(&mut self) {
+       self.loc = Point {
+           x: self.rng.i32(0..20),
+           y: self.rng.i32(0..20),
+       }; 
     }
 }

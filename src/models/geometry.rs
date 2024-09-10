@@ -1,9 +1,16 @@
-use std::time::{Instant, Duration};
-
 #[derive(Clone, Copy, PartialEq, Eq)]
 pub struct Point {
     pub x: i32,
     pub y: i32,
+}
+
+impl Point {
+   pub fn sub(&self, other: Point) -> Point {
+        Point {
+            x: self.x - other.x,
+            y: self.y - other.y,
+        }
+    }
 }
 
 pub enum Direction {
@@ -13,18 +20,5 @@ pub enum Direction {
     Right,
 }
 
-pub struct Random {
-    start: Instant,
-}
-
-impl Random {
-    pub fn new() -> Self {
-        Self {
-            start: Instant::now(),
-        }
-    }
-
-    pub fn get_random_grid(&self) -> Point {
-        Point { x: self.start.elapsed().subsec_nanos() as u32 % 20, y: self.start.elapsed() as u32 % 20}
-    }
-}
+pub static PLAYING_FIELD_SIZE: i32 = 19;
+pub static WALL_SIZE: i32 = 1;

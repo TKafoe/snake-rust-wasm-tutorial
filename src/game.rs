@@ -2,6 +2,7 @@ use crate::models::snake::Snake;
 use crate::models::food::Food;
 use crate::renderers::snake_renderer::SnakeRenderer;
 use crate::renderers::food_renderer::FoodRenderer;
+use crate::renderers::scene_renderer::SceneRenderer;
 use crate::utils::input_controller::InputController;
 use crate::models::geometry::Direction;
 use crate::wasm4;
@@ -45,8 +46,17 @@ impl Game {
         // Update the snake every 15 frames
         if self.frame_count % 10 == 0 {
             self.snake.update();
+
+            // Check collision snake and food
+            if self.snake.head() == self.food.loc {
+                self.snake.grow();
+                self.food.move_loc();
+            }
         }
         
+        // Render the scene
+        SceneRenderer::render();
+
         // Render the snake
         SnakeRenderer::render(&self.snake);
         
@@ -55,5 +65,11 @@ impl Game {
         
         // Save the current state of the gamepad for the next frame
         self.input_controller.save_state();
+        
+        // Check if the snake is dead
+        if self.snake.is_dead() {
+            self.snake = Snake::new();
+            self.food = Food::new();
+        }
     }
 }
