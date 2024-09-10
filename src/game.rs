@@ -9,6 +9,8 @@ use crate::wasm4;
 
 pub struct Game {
     input_controller: InputController,
+    scene_renderer: SceneRenderer,
+    food_renderer: FoodRenderer,
     snake: Snake,
     food: Food,
     frame_count: u32,
@@ -18,6 +20,8 @@ impl Game {
     pub fn new() -> Self {
         Self {
             input_controller: InputController::new(),
+            scene_renderer: SceneRenderer::new(), 
+            food_renderer: FoodRenderer::new(),
             snake: Snake::new(),
             frame_count: 0,
             food: Food::new(),
@@ -60,10 +64,10 @@ impl Game {
         }
 
         // Render the scene
-        SceneRenderer::render();
+        self.scene_renderer.render();
 
         // Render the food
-        FoodRenderer::render(&self.food);
+        self.food_renderer.render(&self.food);
 
         // Save the current state of the gamepad for the next frame
         self.input_controller.save_state();
