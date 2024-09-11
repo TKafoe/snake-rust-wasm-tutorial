@@ -6,6 +6,7 @@ pub struct Snake {
     pub body: Vec<Point>,
     pub direction: Point,
     pub is_dead: bool,
+    pub highlight_food: i32,
 }
 
 impl Snake {
@@ -20,6 +21,7 @@ impl Snake {
             ],
             direction: Point { x: 0, y: 1 },
             is_dead: false,
+            highlight_food: -1,
         }
     }
 
@@ -52,22 +54,26 @@ impl Snake {
         }
     }
 
-    pub fn check_collision_with_self(&self) -> bool {
-        for i in 1..self.body.len() {
-            if self.head() == self.body[i] {
-                return true;
-            }
-        }
-
-        false
+    fn check_collision_with_self(&self) -> bool {
+       self.check_collision_with_object(self.head()) 
     }
 
-    pub fn check_collision_with_wall(&self) -> bool {
+    fn check_collision_with_wall(&self) -> bool {
         let head = self.head();
         head.x < WALL_SIZE
             || head.x >= PLAYING_FIELD_SIZE
             || head.y < WALL_SIZE
             || head.y >= PLAYING_FIELD_SIZE
+    }
+
+    pub fn check_collision_with_object(&self, point: Point) -> bool {
+        for i in 1..self.body.len() {
+            if point == self.body[i] {
+                return true;
+            }
+        }
+
+        false
     }
 
     pub fn update(&mut self) {
@@ -85,6 +91,13 @@ impl Snake {
         if self.check_collision_with_self() || self.check_collision_with_wall() {
             self.is_dead = true;
         }
+        
+        if self.highlight_food >= 0 {
+            self.highlight_food += 1;
+            if self.highlight_food >= self.body.len() as i32 {
+                self.highlight_food = -1;
+            }
+        }
     }
 
     pub fn head(&self) -> Point {
@@ -95,6 +108,8 @@ impl Snake {
         if self.body.len() == 0 {
             return;
         }
+
+        self.highlight_food = 0;
 
         let tail = self.body.last().unwrap();
         self.body.push(Point {

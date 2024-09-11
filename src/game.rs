@@ -50,7 +50,7 @@ impl Game {
         // Update the snake every 15 frames
         if self.frame_count % 10 == 0 {
             self.snake.update();
-            self.food.update();
+            self.food.update(&self.snake);
 
             // Check collision snake and food
             if self.snake.head() == self.food.loc {

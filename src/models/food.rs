@@ -33,23 +33,28 @@ impl Food {
         }
     }
 
-    pub fn update(&mut self) {
+    pub fn update(&mut self, snake: &Snake) {
         // Get 25% chance to move the food.
         if self.rng.u32(0..4) != 0 {
             return;
         }
         // Pick random direction
         let direction = self.rng.u32(0..4);
-
+        
         // Move the food
-        if direction == 0 && self.loc.x > 1 {
-            self.loc.x -= 1;
+        let mut new_pos: Point = self.loc;
+        if direction == 0 && self.loc.x > 1  {
+            new_pos.x -= 1;
         } else if direction == 1 && self.loc.x < 18 {
-            self.loc.x += 1;
+            new_pos.x += 1; 
         } else if direction == 2 && self.loc.y > 1 {
             self.loc.y -= 1;
         } else if direction == 3 && self.loc.y < 18 {
             self.loc.y += 1;
+        }
+ 
+        if !snake.check_collision_with_object(new_pos) {
+            self.loc = new_pos;
         }
     }
 

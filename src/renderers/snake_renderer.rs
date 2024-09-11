@@ -9,10 +9,14 @@ impl SnakeRenderer {
     pub fn render(snake: &Snake) {
         set_draw_color(0, 3);
         set_draw_color(1, 1);
-        for &Point { x, y } in snake.body.iter() {
+        for ( i, &Point { x, y }) in snake.body.iter().enumerate() {
+            if snake.highlight_food >= 0 && i as i32 == snake.highlight_food as i32 {
+                set_draw_color(0, 2);
+            } else {
+                set_draw_color(0, 3);
+            }
+
             wasm4::rect(x * 8, y * 8, 8, 8);
         }
-
-        wasm4::rect(snake.body[0].x * 8, snake.body[0].y * 8, 8, 8);
     }
 }
