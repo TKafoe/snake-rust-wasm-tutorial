@@ -28,30 +28,9 @@ impl Snake {
     pub fn is_dead(&self) -> bool {
         self.is_dead
     }
-
-    pub fn set_direction(&mut self, direction: Direction) {
-        match direction {
-            Direction::Up => {
-                if self.head().sub(self.body[1]).y != 1 {
-                    self.direction = Point { x: 0, y: -1 };
-                }
-            }
-            Direction::Down => {
-                if self.head().sub(self.body[1]).y != -1 {
-                    self.direction = Point { x: 0, y: 1 };
-                }
-            }
-            Direction::Left => {
-                if self.head().sub(self.body[1]).x != 1 {
-                    self.direction = Point { x: -1, y: 0 };
-                }
-            }
-            Direction::Right => {
-                if self.head().sub(self.body[1]).x != -1 {
-                    self.direction = Point { x: 1, y: 0 };
-                }
-            }
-        }
+    
+    pub fn set_direction(&mut self, direction: Point) {
+        self.direction = direction;
     }
 
     fn check_collision_with_self(&self) -> bool {
@@ -75,46 +54,8 @@ impl Snake {
 
         false
     }
-
-    pub fn update(&mut self) {
-        // Move the snake
-        self.body.insert(
-            0,
-            Point {
-                x: (self.body[0].x + self.direction.x),
-                y: (self.body[0].y + self.direction.y),
-            },
-        );
-
-        self.body.pop();
-
-        if self.check_collision_with_self() || self.check_collision_with_wall() {
-            self.is_dead = true;
-        }
-        
-        if self.highlight_food >= 0 {
-            self.highlight_food += 1;
-            if self.highlight_food >= self.body.len() as i32 {
-                self.highlight_food = -1;
-            }
-        }
-    }
-
     pub fn head(&self) -> Point {
         self.body[0]
     }
 
-    pub fn grow(&mut self) {
-        if self.body.len() == 0 {
-            return;
-        }
-
-        self.highlight_food = 0;
-
-        let tail = self.body.last().unwrap();
-        self.body.push(Point {
-            x: tail.x,
-            y: tail.y,
-        });
-    }
 }

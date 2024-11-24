@@ -4,6 +4,7 @@ mod game;
 mod models;
 mod palette;
 mod renderers;
+mod controllers;
 mod utils;
 mod wasm4;
 use game::Game;

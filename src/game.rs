@@ -29,16 +29,7 @@ impl Game {
     }
 
     pub fn process_input(&mut self) {
-        if self.input_controller.is_pressed(wasm4::BUTTON_UP) {
-            self.snake.set_direction(Direction::Up);
-        } else if self.input_controller.is_pressed(wasm4::BUTTON_DOWN) {
-            self.snake.set_direction(Direction::Down);
-        } else if self.input_controller.is_pressed(wasm4::BUTTON_LEFT) {
-            self.snake.set_direction(Direction::Left);
-        } else if self.input_controller.is_pressed(wasm4::BUTTON_RIGHT) {
-            self.snake.set_direction(Direction::Right);
-        }
-    }
+   }
 
     pub fn update(&mut self) {
         // Increase the frame count
